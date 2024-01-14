@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlmodel import Session
 
 from app.core import security
 from app.models.user import User, UserCreate, UserUpdate

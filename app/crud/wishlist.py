@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlmodel import Session
 
 from app.models.wishlist import WishlistCreate, WishlistUpdate
 from app.queries.wishlist import WishlistQuery

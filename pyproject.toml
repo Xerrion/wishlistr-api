@@ -7,6 +7,8 @@ readme = "README.md"
 
 [tool.poetry.group.dev.dependencies]
 black = "^23.12.1"
+pytest = "^7.4.4"
+httpx = "*"
 
 [build-system]
 requires = ["poetry-core"]
@@ -19,11 +21,7 @@ uvicorn = "*"
 argon2-cffi = "*"
 python-jose = {extras = ["cryptography"], version = "*"}
 passlib = "*"
-sqlalchemy = "*"
 pydantic = "*"
 python-multipart = "*"
 sqlmodel = "^0.0.14"
 pydantic-settings = "^2.1.0"
-
-[tool.poetry.dev-dependencies]
-black = "*"
