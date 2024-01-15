@@ -1,3 +1,4 @@
+from datetime import datetime
 from enum import Enum
 from typing import Optional
 
@@ -12,21 +13,25 @@ class Role(str, Enum):
 
 class UserBase(SQLModel):
     username: str
-    role: Role = Role.USER
 
 
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True, index=True)
     hashed_password: str
+    role: Role = Role.USER
+    created_at: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
 
-class UserCreate(SQLModel):
+class UserCreate(UserBase):
     username: str
     password: str
+    role: Optional[Role] = Role.USER
 
 
 class UserRead(UserBase):
     id: int
+    username: str
+    created_at: datetime
 
 
 class UserUpdate(UserBase):

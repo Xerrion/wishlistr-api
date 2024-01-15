@@ -4,7 +4,6 @@ from app.api.api_v1.endpoints import login, users, wishlists, wishes
 
 api_router = APIRouter(
     prefix="/api/v1",
-    tags=["api"],
     responses={404: {"description": "Not found"}},
 )
 api_router.include_router(login.router, prefix="/auth", tags=["login"])

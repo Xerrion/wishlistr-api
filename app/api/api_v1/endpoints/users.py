@@ -9,7 +9,7 @@ from app.models.user import UserCreate, UserRead, UserUpdate
 router = APIRouter()
 
 
-@router.post("/", response_model_exclude={"password"})
+@router.post("/", response_model_exclude={"password", "role"}, status_code=201)
 def create_user(
     *,
     is_admin: AdminUser,

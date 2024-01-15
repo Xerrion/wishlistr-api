@@ -22,6 +22,12 @@ def read_all(session: Session, skip: int = 0, limit: int = 100):
     return query.read_all(skip, limit)
 
 
+def only_with_wishes(session: Session):
+    query = WishlistQuery(session)
+
+    return query.only_with_wishes()
+
+
 def read_by_wishlist(session: Session, wishlist_id: int, skip: int = 0, limit: int = 100):
     query = WishlistQuery(session)
 
