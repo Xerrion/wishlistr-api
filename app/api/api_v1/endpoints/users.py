@@ -1,13 +1,10 @@
 # app/router/users.py
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
-from sqlalchemy.orm import Session
 
-from app import database
-from app.api.deps import SessionDep, AdminUser, CurrentUser
+from app.api.deps import SessionDep, AdminUser
 from app.crud import user as user_crud
-from app.database import get_session
-from app.models.user import Role, User, UserCreate, UserRead, UserUpdate
+from app.models.user import UserCreate, UserRead, UserUpdate
 
 router = APIRouter()
 
@@ -15,6 +12,7 @@ router = APIRouter()
 @router.post("/", response_model_exclude={"password"})
 def create_user(
     *,
+    is_admin: AdminUser,
     session: SessionDep,
     user: UserCreate,
 ) -> UserRead:
@@ -29,7 +27,7 @@ def create_user(
 @router.get("/{user_id}", response_model_exclude={"password", "role"})
 def read_user(
     *,
-    current_user: CurrentUser,
+    is_admin: AdminUser,
     session: SessionDep,
     user_id: int,
 ) -> UserRead:
@@ -44,9 +42,9 @@ def read_user(
 @router.put("/{user_id}")
 def update_user(
     *,
-    user_id: int,
-    session: SessionDep,
     is_admin: AdminUser,
+    session: SessionDep,
+    user_id: int,
 ) -> UserUpdate:
     updated_user = user_crud.update(session=session, user_id=user_id)
 
@@ -59,13 +57,10 @@ def update_user(
 @router.delete("/{user_id}")
 def delete_user(
     *,
+    is_admin: AdminUser,
     session: SessionDep,
-    current_user: CurrentUser,
     user_id: int,
 ) -> Response:
-    if current_user.id != user_id or not current_user.role != Role.ADMIN:
-        raise HTTPException(status_code=401, detail="Not enough permissions")
-
     deleted_user = user_crud.delete(user_id=user_id, session=session)
 
     if deleted_user is None:

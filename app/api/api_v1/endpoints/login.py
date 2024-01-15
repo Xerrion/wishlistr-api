@@ -9,7 +9,7 @@ from app.models.user import Token
 router = APIRouter()
 
 
-@router.post("/auth")
+@router.post("/")
 def login_for_access_token(
     *,
     session: SessionDep,

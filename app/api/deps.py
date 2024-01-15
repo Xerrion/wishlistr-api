@@ -2,15 +2,12 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from jose import jwt
-from pydantic import ValidationError
 from sqlmodel import Session
 from starlette import status
 
 from app import database, crud
 from app.core import security
-from app.core.config import settings
-from app.models.user import User, Role, TokenPayload
+from app.models.user import User, Role
 
 SessionDep = Annotated[Session, Depends(database.get_session)]
 TokenDep = Annotated[str, Depends(security.oauth2_scheme)]
