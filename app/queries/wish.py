@@ -1,3 +1,5 @@
+from sqlmodel import select
+
 from app.models.wish import Wish
 from app.queries.base import BaseQuery
 
@@ -7,4 +9,5 @@ class WishQuery(BaseQuery):
         super().__init__(session, Wish)
 
     def query_wishes_by_wishlist(self, wishlist_id: int):
-        return self.query().filter(self.model.wishlist_id == wishlist_id)
+        statement = select(self.model).where(self.model.wishlist_id == wishlist_id)
+        return self.query(statement)
